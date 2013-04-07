@@ -1,5 +1,8 @@
 papertrail_port = node[:papertrail][:port] or raise 'Must set papertrail port!'
 
+include_recipe 'apt'
+package 'libssl-dev' # needed so remote_syslog will build with ssl
+
 gem_package 'remote_syslog'
 
 log_files_conf = '/etc/log_files.yml'
@@ -26,7 +29,7 @@ respawn
 
 pre-start exec /usr/bin/test -e #{log_files_conf}
 
-exec /usr/local/bin/remote_syslog -D
+exec /usr/local/bin/remote_syslog -D --tls
   UPSTART
 
   notifies :restart, 'service[remote_syslog]', :delayed

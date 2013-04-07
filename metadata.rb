@@ -21,4 +21,6 @@ attribute   'papertrail/log_files',
               :type => 'array',
               :required => 'recommended'
 
+depends     'apt'
+
 supports 'ubuntu'
