@@ -1,4 +1,5 @@
 papertrail_port = node[:papertrail][:port] or raise 'Must set papertrail port!'
+papertrail_host = node[:papertrail][:host]
 
 include_recipe 'apt'
 package 'libssl-dev' # needed so remote_syslog will build with ssl
@@ -12,7 +13,7 @@ file log_files_conf do
     files:
 #{node[:papertrail][:log_files].map {|file| "      - #{file}" }.join("\n")}
     destination:
-      host: logs.papertrailapp.com
+      host: #{papertrail_host}
       port: #{papertrail_port}
   YAML
 
